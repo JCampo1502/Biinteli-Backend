@@ -1,0 +1,6 @@
+@Biinteli_HostAddress = http://localhost:5148
+
+GET {{Biinteli_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
