@@ -34,34 +34,19 @@ namespace App.Profiles
                         FlightNumber = dto.FlightNumber
                     }).ToList()));
 
-            CreateMap<Journey, JourneyDto>()
-                .ForMember(dest => dest.Flights, opt => opt.MapFrom(src => src.Flights
-                    .Select(f => new BaseFlightDto
-                    {
-                        Origin = f.Origin,
-                        Destination = f.Destination,
-                        Price = f.Price,
-                        Transports = f.Transports.Select(x => new BaseTransportDto
-                        {
-                            FlightCarrier = x.FlightCarrier,
-                            FlightNumber = x.FlightNumber
-                        }).ToList()
-                    }).ToList()))
+            CreateMap<Transport, BaseTransportDto>()
+            .ReverseMap();
+
+            CreateMap<Flight, BaseFlightDto>()
+                .ForMember(dest => dest.Transports, opt => opt.MapFrom(src => src.Transports))
                 .ReverseMap()
-                .ForMember(dest => dest.Flights, opt => opt.MapFrom(src => src.Flights
-                    .Select(dto => new Flight
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Origin = dto.Origin,
-                        Destination = dto.Destination,
-                        Price = dto.Price,
-                        Transports = dto.Transports.Select(x => new Transport
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            FlightCarrier = x.FlightCarrier,
-                            FlightNumber = x.FlightNumber
-                        }).ToList()
-                    }).ToList()));
+                .ForMember(dest => dest.Transports, opt => opt.MapFrom(src => src.Transports));
+
+            CreateMap<Journey, JourneyDto>()
+                .ForMember(dest => dest.Flights, opt => opt.MapFrom(src => src.Flights))
+                .ReverseMap()
+                .ForMember(dest => dest.Flights, opt => opt.MapFrom(src => src.Flights));
+
 
             CreateMap<BaseFlightDto,SimpleFlightDto>().ReverseMap();
             CreateMap<SimpleFlightDto, FlightDto>().ReverseMap();
@@ -70,6 +55,7 @@ namespace App.Profiles
             CreateMap<SimpleJourneyDto, JourneyDto>().ReverseMap();
 
             CreateMap<SimpleTransportDto, BaseTransportDto>().ReverseMap();
+            CreateMap<TransportDto, BaseTransportDto>().ReverseMap();
             CreateMap<TransportDto, SimpleTransportDto>().ReverseMap();
             
         }

@@ -11,32 +11,32 @@ public class JourneyRepository(ApiContext context) : GenericRepository<Journey>,
     protected override async Task<List<Journey>> RequestAsync()
     {
         var journeys = await (
-         from journey in context.Journeys
-         join flight in context.Flights on journey.Id equals flight.JourneyId into flightGroup
-         select new Journey
-         {
-             Id = journey.Id,
-             Origin = journey.Origin,
-             Destination = journey.Destination,
-             Price = journey.Price,
-             Flights = flightGroup.Select(f => new Flight
-             {
-                 Id = f.Id,
-                 Origin = f.Origin,
-                 Destination = f.Destination,
-                 Price = f.Price,
-                 JourneyId = f.JourneyId,
-                 Transports = context.Transports
-                     .Where(t => t.FlightId == f.Id)
-                     .Select(t => new Transport
-                     {
-                         Id = t.Id,
-                         FlightCarrier = t.FlightCarrier,
-                         FlightNumber = t.FlightNumber,
-                         FlightId = t.FlightId
-                     }).ToList()
-             }).ToList()
-         }).ToListAsync();
+            from journey in context.Journeys
+            join flight in context.Flights on journey.Id equals flight.JourneyId into flightGroup
+            select new Journey
+            {
+                Id = journey.Id,
+                Origin = journey.Origin,
+                Destination = journey.Destination,
+                Price = journey.Price,
+                Flights = flightGroup.Select(f => new Flight
+                {
+                    Id = f.Id,
+                    Origin = f.Origin,
+                    Destination = f.Destination,
+                    Price = f.Price,
+                    JourneyId = f.JourneyId,
+                    Transports = context.Transports
+                        .Where(t => t.FlightId == f.Id)
+                        .Select(t => new Transport
+                        {
+                            Id = t.Id,
+                            FlightCarrier = t.FlightCarrier,
+                            FlightNumber = t.FlightNumber,
+                            FlightId = t.FlightId
+                        }).ToList() 
+                }).ToList() 
+            }).ToListAsync(); 
 
         return journeys;
     }
