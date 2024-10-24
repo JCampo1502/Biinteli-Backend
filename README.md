@@ -89,6 +89,41 @@ public async Task<ActionResult<JourneyDto>> FilterByOriginAndDestination(
     [FromQuery] string destination
 )
 ```
+- **GET /FilterByOriginAndDestination?origin=CAL&destination=MED**: Ejemplo de respuesta.
+```json
+[
+  {
+    "id": "49f733c5-4b65-4390-bc60-ec7c3471e028",
+    "flights": [
+      {
+        "transports": [],
+        "origin": "BTA",
+        "destination": "MED",
+        "price": 1000
+      },
+      {
+        "transports": [
+          {
+            "flightCarrier": "AV",
+            "flightNumber": "8090"
+          },
+          {
+            "flightCarrier": "AV",
+            "flightNumber": "8040"
+          }
+        ],
+        "origin": "CAL",
+        "destination": "MED",
+        "price": 1500
+      }
+    ],
+    "origin": "CAL",
+    "destination": "MED",
+    "price": 1500
+  }
+]
+```
+- **Swagger**:
 ![swagger01](https://github.com/user-attachments/assets/7533393b-52ae-4d8e-bee9-f270e54eac76)
 
 ![swagger02](https://github.com/user-attachments/assets/1cb1d9d1-ea75-4f6a-9b49-064f2d4ed6a5)
